@@ -6,11 +6,11 @@ import Levels from './Levels.js'
 //evtl. schiesser / gegner stacheln geben
 //level end -> next level
 
-const developerMode = 1
+const developerMode = 0
 
 const jumpLevels = [
 
-    200, 250, 340, 370, 400
+    200, 250, 370, 400, 400
 
 ]
 
@@ -198,7 +198,7 @@ export class Game extends Scene {
         this.physics.add.collider(self.sprite, this.player)
         this.physics.add.collider(self.sprite, this.walls)
         self.sprite.body.drag.x = 500
-        self.sprite.body.mass = 0.1
+        self.sprite.body.mass = 0.8
     }, (self) => {
 
     }, this.boxGroup)
