@@ -79,6 +79,7 @@ export class Game extends Scene {
         this.gameOver()
     })
     this.physics.add.collider(this.player, this.levelEndGroup, () => {
+        if (this.dead) return
         this.level++
         this.gotoLevel(this.level)
     })
@@ -87,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 0
+    this.level = 2
     this.gotoLevel(this.level)
 
     if (developerMode) {
