@@ -6,11 +6,11 @@ import Levels from './Levels.js'
 //evtl. schiesser / gegner stacheln geben
 //level end -> next level
 
-const developerMode = 0
+const developerMode = 1
 
 const jumpLevels = [
 
-    200, 250, 370, 400, 400
+    300, 300, 370, 400, 400
 
 ]
 
@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 4 //start here xyzzy
+    this.level = 5 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
