@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 2
+    this.level = 3
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -414,7 +414,7 @@ export class Game extends Scene {
             this.createFood(x, y, "fat");
             break
         case tile.spikeUp:
-            this.createSpike(x, y, 0);
+            this.createSpike(x, y + 24, 0);
             break
         case tile.spikeRight:
             this.createSpike(x, y, 90);
