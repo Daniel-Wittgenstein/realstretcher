@@ -66,6 +66,7 @@ export class Game extends Scene
     this.createEnemy(100, 100)
     this.createFood(100, 400, "slim")
     this.createFood(300, 400, "fat")
+    this.createBox(300, 400)
 
 }
 
@@ -103,6 +104,16 @@ export class Game extends Scene
             this.destroyEntity(self)
         })
         self.sprite.body.allowGravity = false
+    }, (self) => {
+
+    })
+  }
+
+  createBox(x, y) {
+    this.createEntity("box", x, y, "box", (self) => {
+        this.physics.add.collider(self.sprite, this.player)
+        this.physics.add.collider(self.sprite, this.walls)
+        self.sprite.body.drag.x = 500
     }, (self) => {
 
     })

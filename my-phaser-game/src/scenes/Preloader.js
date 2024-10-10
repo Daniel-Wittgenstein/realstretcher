@@ -37,6 +37,7 @@ export class Preloader extends Scene
         this.load.image('enemy', 'enemy.png');
         this.load.image('slim', 'slim.png');
         this.load.image('fat', 'fat.png');
+        this.load.image('box', 'box.png');
     }
 
     create ()
