@@ -4,11 +4,11 @@ import { Scene } from 'phaser';
 //solange was drauf ist, schranke öffnet, restart, respawn
 //level saven und reloaden
 
-const developerMode = true
+const developerMode = 1
 
 const jumpLevels = [
 
-    200, 250, 300, 350, 400
+    200, 250, 340, 370, 400
 
 ]
 
@@ -96,31 +96,45 @@ export class Game extends Scene {
             y = Math.round(y / gridY) * gridY
             let sel = this.devSelection
             switch (sel) {
+                case 0:
+                    this.createWall(x - 32, y - 32, 2);
+                    break
                 case 1:
-                    this.createWall(x, y);
+                    this.createWall(x, y, 1);
                     break
                 case 2:
-                    this.createBox(x, y);
+                    this.createWall(x-16, y, 0.5);
                     break
                 case 3:
-                    this.createEnemy(x, y);
+                    this.createWall(x+16, y, 0.5);
                     break
                 case 4:
-                    this.createFood(x, y, "slim");
+                    this.createWall(x, y, 0.5);
                     break
+
+                
                 case 5:
-                    this.createFood(x, y, "fat");
+                    this.createBox(x, y);
                     break
                 case 6:
-                    this.createSpike(x, y, 0);
+                    this.createEnemy(x, y);
                     break
                 case 7:
-                    this.createSpike(x, y, 90);
+                    this.createFood(x, y, "slim");
                     break
                 case 8:
-                    this.createSpike(x, y, 180);
+                    this.createFood(x, y, "fat");
                     break
                 case 9:
+                    this.createSpike(x, y, 0);
+                    break
+                case 10:
+                    this.createSpike(x, y, 90);
+                    break
+                case 11:
+                    this.createSpike(x, y, 180);
+                    break
+                case 12:
                     this.createSpike(x, y, 270);
                     break
             }
@@ -153,12 +167,12 @@ export class Game extends Scene {
     graphics.strokePath(); // Draw the lines
   }
 
-  createWall(x, y) {
-    this.walls.create(x, y, 'ground').setScale(1).refreshBody()
+  createWall(x, y, scale) {
+    this.walls.create(x, y, 'ground').setScale(scale).refreshBody()
   }
 
   devSelDo(x) {
-    const texts = ["---", "wall", "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
+    const texts = ["wall big", "wall std", "wall small left", "wall small right", "wall small mid", "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
     this.devSelection += x
     const txt = texts[this.devSelection]
     const el = document.getElementById("dev-box")
