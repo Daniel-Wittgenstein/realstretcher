@@ -25,10 +25,13 @@ export class Game extends Scene
 
     // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
-    this.walls.create(400, 590, 'ground').setScale(2).refreshBody(); // bottom wall
-    this.walls.create(400, 10, 'ground').setScale(2).refreshBody();  // top wall
-    this.walls.create(10, 300, 'ground').setScale(2, 0.5).refreshBody(); // left wall
-    this.walls.create(790, 300, 'ground').setScale(2, 0.5).refreshBody(); // right wall
+    this.walls.create(400, 590, 'ground').setScale(2).refreshBody();
+    this.walls.create(400, 10, 'ground').setScale(2).refreshBody();
+    this.walls.create(10, 300, 'ground').setScale(2, 0.5).refreshBody();
+    this.walls.create(790, 300, 'ground').setScale(2, 0.5).refreshBody();
+
+    this.walls.create(0, 790, 'ground').setScale(60, 1).refreshBody();
+
 
     // Create the player (a simple box)
     this.player = this.physics.add.sprite(400, 300, 'player').setCollideWorldBounds(true);
@@ -60,10 +63,11 @@ export class Game extends Scene
     this.enemy.setBounce(0.2);
     this.physics.add.collider(this.enemy, this.walls);
 */
-    this.createEntity("enemy", 400, 300, "enemy", (self) => {
+    this.createEntity("enemy", 400, 100, "enemy", (self) => {
         self.sprite.setCollideWorldBounds(true)
         self.sprite.setBounce(0.2)
         this.physics.add.collider(self.sprite, this.walls)
+        this.physics.add.collider(self.sprite, this.player)
         self.dir = -1
     }, (self) => {
         if (self.dir === -1) {
