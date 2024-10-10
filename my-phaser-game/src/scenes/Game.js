@@ -58,6 +58,10 @@ export class Game extends Scene
 
     this.jumpStrength = jumpLevels[2]
 
+    this.enemyGroup = this.physics.add.group()
+    this.boxGroup = this.physics.add.group()
+    this.physics.add.collider(this.enemyGroup, this.boxGroup)
+
     /*
     this.enemy = this.physics.add.sprite(400, 300, 'enemy').setCollideWorldBounds(true);
     this.enemy.setBounce(0.2);
@@ -89,7 +93,7 @@ export class Game extends Scene
         if (self.sprite.body.blocked.right) {
             self.dir = -1
         }
-    })
+    }, this.enemyGroup)
   }
 
   createFood(x, y, type) {
@@ -113,10 +117,11 @@ export class Game extends Scene
     this.createEntity("box", x, y, "box", (self) => {
         this.physics.add.collider(self.sprite, this.player)
         this.physics.add.collider(self.sprite, this.walls)
+
         self.sprite.body.drag.x = 500
     }, (self) => {
 
-    })
+    }, this.boxGroup)
   }
 
   destroyEntity(entity) {
@@ -127,9 +132,13 @@ export class Game extends Scene
   }
 
   createEntity(type = "", x = 0, y = 0, img = "enemy", createFunc = () => {},
-        updateFunc = () => {}) {
+        updateFunc = () => {}, group = null) {
     const entity = {type, updateFunc}
-    entity.sprite = this.physics.add.sprite(x, y, img)
+    if (group) {
+        entity.sprite = group.create(x, y, img)
+    } else {
+        entity.sprite = this.physics.add.sprite(x, y, img)
+    }
     createFunc(entity)
     state.entities.push(entity)
   }
