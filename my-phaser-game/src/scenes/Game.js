@@ -1,5 +1,12 @@
 import { Scene } from 'phaser';
 
+
+const jumpLevels = [
+
+    200, 250, 300, 350, 400
+
+]
+
 export class Game extends Scene
 {
   constructor ()
@@ -20,7 +27,7 @@ export class Game extends Scene
     this.walls.create(790, 300, 'ground').setScale(2, 0.5).refreshBody(); // right wall
 
     // Create the player (a simple box)
-    this.player = this.physics.add.sprite(400, 300, 'box').setCollideWorldBounds(true);
+    this.player = this.physics.add.sprite(400, 300, 'player').setCollideWorldBounds(true);
     this.player.setBounce(0.2);
 
     // Enable collision between the player and the walls
@@ -37,12 +44,58 @@ export class Game extends Scene
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    
+
+    this.ONE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+    this.TWO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+
+    this.fatLevel = 2
+
+    this.jumpStrength = jumpLevels[2]
+
   }
+
+  slimmer () {
+    this.fatLevel++
+    this.updatePlayerShape()
+  }
+
+  fatter () {
+    this.fatLevel--
+    this.updatePlayerShape()
+  }
+
+  updatePlayerShape() {
+    if (this.fatLevel < 0) {
+        this.fatLevel = 0
+        return
+    }
+    if (this.fatLevel > 4) {
+        this.fatLevel = 4
+        return
+    }
+    this.player.setVelocityY(-200);
+
+    if (this.fatLevel === 0) {
+        this.player.setScale(3, 0.3)
+        this.jumpStrength = jumpLevels[0]
+    } else if (this.fatLevel === 1) {
+        this.player.setScale(2, 0.666)
+        this.jumpStrength = jumpLevels[1]
+    } else if (this.fatLevel === 2) {
+        this.player.setScale(1, 1)
+        this.jumpStrength = jumpLevels[2]
+    } else if (this.fatLevel === 3) {
+        this.player.setScale(0.666, 2)
+        this.jumpStrength = jumpLevels[3]
+    }  else if (this.fatLevel === 4) {
+        this.player.setScale(0.3, 3)
+        this.jumpStrength = jumpLevels[4]
+    }
+  }
+  
 
   update ()
   {
-    // Player movement
     if (this.A.isDown || this.left.isDown) {
       this.player.setVelocityX(-160);
     } else if (this.D.isDown || this.right.isDown) {
@@ -52,8 +105,19 @@ export class Game extends Scene
     }
 
     // Player jump
-    if ( (this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
-      this.player.setVelocityY(-330);
+    if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
+      this.player.setVelocityY(-this.jumpStrength);
     }
+
+    if (Phaser.Input.Keyboard.JustDown(this.ONE)) {
+        this.fatter()
+    }
+    
+    if (Phaser.Input.Keyboard.JustDown(this.TWO)) {
+        this.slimmer()
+    }
+
   }
+
+
 }
