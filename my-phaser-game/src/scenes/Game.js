@@ -3,7 +3,7 @@ import tile from "./tile.js"
 import Levels from './Levels.js'
 
 //schalter der von dir und von kiste und von gegner aktiviert wird und nur
-//solange was drauf ist, schranke öffnet, restart, respawn
+//solange was drauf ist, schranke öffnet, respawn
 
 const developerMode = 1
 
@@ -133,8 +133,11 @@ export class Game extends Scene {
   }
 
   gameOver() {
+    if (this.dead) return
     this.dead = true
     this.player.setTexture('dead')
+    this.player.setVelocityY(-200)
+    this.deadCounter = 100
   }
 
   createEnemy(x, y) {
@@ -334,7 +337,7 @@ export class Game extends Scene {
         this.fatLevel = 4
         return
     }
-    if (bounce) this.player.setVelocityY(-200);
+    if (bounce) this.player.setVelocityY(-200)
 
     if (this.fatLevel === 0) {
         this.player.setScale(3.2, 0.3)
@@ -356,6 +359,15 @@ export class Game extends Scene {
   
 
   update () {
+
+    if (this.dead) {
+        this.deadCounter--
+        if (this.deadCounter <= 0) {
+            this.dead = false
+            this.player.setTexture('player')
+            this.restartLevel()
+        }
+    }
 
     if (!this.dead) {
         if (this.A.isDown || this.left.isDown) {
