@@ -19,8 +19,8 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 300 },  // You can adjust gravity here
-          debug: false          // Set to true for debugging physics bodies
+          gravity: { y: 300 },
+          debug: false,
         }
     },
     scene: [
