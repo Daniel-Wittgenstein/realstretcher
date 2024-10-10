@@ -4,6 +4,8 @@ import Levels from './Levels.js'
 
 //schalter der von dir und von kiste und von gegner aktiviert wird und nur
 //solange was drauf ist, schranke öffnet, respawn
+//evtl. schiesser / gegner stacheln geben
+//level end -> next level
 
 const developerMode = 1
 
@@ -69,8 +71,14 @@ export class Game extends Scene {
     this.spikeGroup = this.physics.add.staticGroup()
     this.enemyGroup = this.physics.add.group()
     this.boxGroup = this.physics.add.group()
+    this.laserGroup = this.physics.add.staticGroup()
+
     this.physics.add.collider(this.enemyGroup, this.boxGroup)
+    this.physics.add.collider(this.boxGroup, this.boxGroup)
     this.physics.add.collider(this.player, this.spikeGroup, () => {
+        this.gameOver()
+    })
+    this.physics.add.collider(this.player, this.laserGroup, () => {
         this.gameOver()
     })
 
@@ -120,6 +128,7 @@ export class Game extends Scene {
   createWall(x, y, scale) {
     this.walls.create(x, y, 'ground').setScale(scale).refreshBody()
   }
+
 
   devSelDo(x) {
     const texts = ["wall big", "wall std",
@@ -195,6 +204,11 @@ export class Game extends Scene {
         self.sprite.setRotation(Phaser.Math.DegToRad(angle))
     }, (self) => {
     }, this.spikeGroup)
+  }
+
+  createLaser(x, y) {
+    this.createEntity("laser", x, y, "laser", (self) => {
+    }, (self) => {}, this.laserGroup)
   }
 
   gotoLevel(levelName) {
@@ -279,6 +293,9 @@ export class Game extends Scene {
             return
         case tile.startPlayer:
             this.player.setPosition(x, y)
+            break
+        case tile.laser:
+            this.createLaser(x, y)
             break
         case tile.bigWall:
             this.createWall(x - 32, y - 32, 2);
