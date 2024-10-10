@@ -1,5 +1,8 @@
 import { Scene } from 'phaser';
 
+//stacheln, schalter der von dir und von kiste und von gegner aktiviert wird und nur
+//solange was drauf ist, schranke öffnet
+//live level editing mit maus und saven
 
 const jumpLevels = [
 
@@ -11,15 +14,13 @@ let state = {
     entities: [],
 }
 
-export class Game extends Scene
-{
-  constructor ()
-  {
+export class Game extends Scene {
+
+  constructor () {
     super('Game');
   }
 
-  create ()
-  {
+  create ()  {
     // Set background color
     this.cameras.main.setBackgroundColor(0x00ff00);
 
@@ -58,9 +59,13 @@ export class Game extends Scene
 
     this.jumpStrength = jumpLevels[2]
 
+    this.spikeGroup = this.physics.add.staticGroup()
     this.enemyGroup = this.physics.add.group()
     this.boxGroup = this.physics.add.group()
     this.physics.add.collider(this.enemyGroup, this.boxGroup)
+    this.physics.add.collider(this.player, this.spikeGroup, () => {
+        this.gameOver()
+    })
 
     /*
     this.enemy = this.physics.add.sprite(400, 300, 'enemy').setCollideWorldBounds(true);
@@ -71,8 +76,17 @@ export class Game extends Scene
     this.createFood(100, 400, "slim")
     this.createFood(300, 400, "fat")
     this.createBox(300, 400)
+    this.createSpike(500, 400, 90)
+    this.createSpike(200, 400, 180)
 
-}
+    this.dead = false
+
+  }
+
+  gameOver() {
+    this.dead = true
+    this.player.setTexture('dead')
+  }
 
   createEnemy(x, y) {
     this.createEntity("enemy", x, y, "enemy", (self) => {
@@ -122,6 +136,13 @@ export class Game extends Scene
     }, (self) => {
 
     }, this.boxGroup)
+  }
+
+  createSpike(x, y, angle = 0) {
+    this.createEntity("spike", x, y, "spike", (self) => {
+        self.sprite.setRotation(Phaser.Math.DegToRad(angle))
+    }, (self) => {
+    }, this.spikeGroup)
   }
 
   destroyEntity(entity) {
@@ -191,16 +212,18 @@ export class Game extends Scene
 
   update () {
 
-    if (this.A.isDown || this.left.isDown) {
-      this.player.setVelocityX(-160);
-    } else if (this.D.isDown || this.right.isDown) {
-      this.player.setVelocityX(160);
-    } else {
-      this.player.setVelocityX(0);
-    }
+    if (!this.dead) {
+        if (this.A.isDown || this.left.isDown) {
+        this.player.setVelocityX(-160);
+        } else if (this.D.isDown || this.right.isDown) {
+        this.player.setVelocityX(160);
+        } else {
+        this.player.setVelocityX(0);
+        }
 
-    if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
-      this.player.setVelocityY(-this.jumpStrength);
+        if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
+        this.player.setVelocityY(-this.jumpStrength);
+        }
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.ONE)) {
