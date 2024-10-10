@@ -41,6 +41,8 @@ export class Preloader extends Scene
         this.load.image('spike', 'spike.png');
         this.load.image('dead', 'dead.png');
         this.load.image('laser', 'laser.png');
+        this.load.image('switch', 'switch.png');
+        this.load.image('switchOff', 'switch-off.png');
     }
 
     create ()

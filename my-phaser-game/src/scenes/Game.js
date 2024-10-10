@@ -206,9 +206,59 @@ export class Game extends Scene {
     }, this.spikeGroup)
   }
 
-  createLaser(x, y) {
+  createLaser(x, y, name) {
     this.createEntity("laser", x, y, "laser", (self) => {
+        self.name = "laser-" + name
     }, (self) => {}, this.laserGroup)
+  }
+
+  disactivateLaser(laserName) {
+    for (const entity of state.entities) {
+        if (entity.name === laserName) {
+            entity.sprite.setVisible(false)
+            entity.sprite.body.enable = false
+            return
+        }
+    }
+  }
+  
+  getEntityByName(name) {
+    for (const entity of state.entities) {
+        if (entity.name === name) {
+            return entity
+        }
+    }
+    return null
+  }
+
+  createSwitch(x, y, name) {
+    this.createEntity("switch", x, y, "switch", (self) => {
+        const func = () => {
+            self.activateCounter = 20
+            if (self.activated) return
+            self.activated = true
+            self.sprite.setTexture("switchOff")
+            const laser = this.getEntityByName("laser-" + name)
+            if (!laser) return
+            self.laserPosX = laser.sprite.x
+            self.laserPosY = laser.sprite.y
+            this.destroyEntity(laser)
+        }
+        this.physics.add.collider(this.enemyGroup, self.sprite, func)
+        this.physics.add.collider(this.player, self.sprite, func)
+        this.physics.add.collider(this.boxGroup, self.sprite, func)
+        self.sprite.body.allowGravity = false
+        self.sprite.body.immovable = true
+    }, (self) => {
+        if (self.activateCounter > 0) {
+            self.activateCounter--
+            if (self.activateCounter <= 0) {
+                self.activated = false
+                self.sprite.setTexture("switch")
+                this.createLaser(self.laserPosX, self.laserPosY, name)
+            }
+        }
+    })
   }
 
   gotoLevel(levelName) {
@@ -291,11 +341,14 @@ export class Game extends Scene {
     switch (sel) {
         case tile.empty:
             return
+        case tile.switch:
+            this.createSwitch(x, y, "1")
+            break
         case tile.startPlayer:
             this.player.setPosition(x, y)
             break
         case tile.laser:
-            this.createLaser(x, y)
+            this.createLaser(x, y, "1")
             break
         case tile.bigWall:
             this.createWall(x - 32, y - 32, 2);
@@ -363,10 +416,10 @@ export class Game extends Scene {
         this.player.setScale(1.75, 0.666)
         this.jumpStrength = jumpLevels[1]
     } else if (this.fatLevel === 2) {
-        this.player.setScale(1, 1)
+        this.player.setScale(1.1, 0.95)
         this.jumpStrength = jumpLevels[2]
     } else if (this.fatLevel === 3) {
-        this.player.setScale(0.666, 2)
+        this.player.setScale(0.666, 1.8)
         this.jumpStrength = jumpLevels[3]
     }  else if (this.fatLevel === 4) {
         this.player.setScale(0.3, 3)
