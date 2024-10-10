@@ -34,9 +34,6 @@ export class Game extends Scene {
     // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
 
-    this.walls.create(0, 768, 'ground').setScale(60, 1).refreshBody();
-
-
     // Create the player (a simple box)
     this.player = this.physics.add.sprite(400, 300, 'player').setCollideWorldBounds(true);
     this.player.setBounce(0.2);
@@ -282,8 +279,14 @@ export class Game extends Scene {
     this.player.body.setVelocity(0)
     this.player.body.setAcceleration(0)
     this.updatePlayerShape(false)
+    this.destroyAllWalls()
+    this.walls.create(0, 768, 'ground').setScale(60, 1).refreshBody();
     this.destroyAllEntities()
     this.loadLevel(this.currentLevelIndex)
+  }
+
+  destroyAllWalls() {
+    this.walls.clear(true, true)
   }
 
   destroyAllEntities() {
