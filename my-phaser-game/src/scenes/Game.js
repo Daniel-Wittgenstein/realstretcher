@@ -31,12 +31,8 @@ export class Game extends Scene {
 
     // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
-    this.walls.create(400, 590, 'ground').setScale(2).refreshBody();
-    this.walls.create(400, 10, 'ground').setScale(2).refreshBody();
-    this.walls.create(10, 300, 'ground').setScale(2, 0.5).refreshBody();
-    this.walls.create(790, 300, 'ground').setScale(2, 0.5).refreshBody();
 
-    this.walls.create(0, 790, 'ground').setScale(60, 1).refreshBody();
+    this.walls.create(0, 768, 'ground').setScale(60, 1).refreshBody();
 
 
     // Create the player (a simple box)
@@ -76,13 +72,6 @@ export class Game extends Scene {
     })
 
     this.devSelection = 1
-
-    this.createEnemy(100, 100)
-    this.createFood(100, 400, "slim")
-    this.createFood(300, 400, "fat")
-    this.createBox(300, 400)
-    this.createSpike(500, 400, 90)
-    this.createSpike(200, 400, 180)
 
     this.dead = false
 
