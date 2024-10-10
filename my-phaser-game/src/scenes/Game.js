@@ -2,8 +2,7 @@ import { Scene } from 'phaser';
 import tile from "./tile.js"
 import Levels from './Levels.js'
 
-//schalter der von dir und von kiste und von gegner aktiviert wird und nur
-//solange was drauf ist, schranke öffnet, respawn
+
 //evtl. schiesser / gegner stacheln geben
 //level end -> next level
 
@@ -72,6 +71,7 @@ export class Game extends Scene {
     this.enemyGroup = this.physics.add.group()
     this.boxGroup = this.physics.add.group()
     this.laserGroup = this.physics.add.staticGroup()
+    this.levelEndGroup = this.physics.add.staticGroup()
 
     this.physics.add.collider(this.enemyGroup, this.boxGroup)
     this.physics.add.collider(this.boxGroup, this.boxGroup)
@@ -81,12 +81,17 @@ export class Game extends Scene {
     this.physics.add.collider(this.player, this.laserGroup, () => {
         this.gameOver()
     })
+    this.physics.add.collider(this.player, this.levelEndGroup, () => {
+        this.level++
+        this.gotoLevel(this.level)
+    })
 
     this.devSelection = 1
 
     this.dead = false
 
-    this.gotoLevel("test")
+    this.level = 0
+    this.gotoLevel(this.level)
 
     if (developerMode) {
         this.input.on('pointerdown', (pointer) => {
@@ -192,8 +197,8 @@ export class Game extends Scene {
     this.createEntity("box", x, y, "box", (self) => {
         this.physics.add.collider(self.sprite, this.player)
         this.physics.add.collider(self.sprite, this.walls)
-
         self.sprite.body.drag.x = 500
+        self.sprite.body.mass = 0.1
     }, (self) => {
 
     }, this.boxGroup)
@@ -231,6 +236,12 @@ export class Game extends Scene {
     return null
   }
 
+  createLevelEnd(x, y) {
+    this.createEntity("levelEnd", x, y, "flag", () => {
+
+    }, () => {}, this.levelEndGroup)
+  }
+
   createSwitch(x, y, name) {
     this.createEntity("switch", x, y, "switch", (self) => {
         const func = () => {
@@ -261,8 +272,8 @@ export class Game extends Scene {
     })
   }
 
-  gotoLevel(levelName) {
-    this.currentLevelName = levelName
+  gotoLevel(index) {
+    this.currentLevelIndex = index
     this.restartLevel()
   }
 
@@ -272,7 +283,7 @@ export class Game extends Scene {
     this.player.body.setAcceleration(0)
     this.updatePlayerShape(false)
     this.destroyAllEntities()
-    this.loadLevel(this.currentLevelName)
+    this.loadLevel(this.currentLevelIndex)
   }
 
   destroyAllEntities() {
@@ -316,15 +327,8 @@ export class Game extends Scene {
     this.updatePlayerShape()
   }
 
-  getLevelByName(levelName) {
-    for (const level of Levels) {
-        if (level.name === levelName) return level
-    }
-    throw new Error(`No level with name '${levelName}'.`)
-  }
-
-  loadLevel(levelName) {
-    const level = this.getLevelByName(levelName)
+  loadLevel(levelIndex) {
+    const level = Levels[levelIndex]
     const tiles = level.tiles
     const abst = 64
     for (let row = 0; row < tiles.length; row++) {
@@ -342,6 +346,10 @@ export class Game extends Scene {
         case tile.empty:
             return
         
+        case tile.levelEnd:
+            this.createLevelEnd(x, y)
+            break
+
         case tile.switch1:
             this.createSwitch(x, y + 22, "1")
             break
@@ -403,7 +411,7 @@ export class Game extends Scene {
             this.createWall(x, y-16, 0.5);
             break
         case tile.box:
-            this.createBox(x, y);
+            this.createBox(x-32, y); //testing xyzzy -32 entfernen
             break
         case tile.enemy:
             this.createEnemy(x, y);
