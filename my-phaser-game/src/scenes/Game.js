@@ -239,6 +239,7 @@ export class Game extends Scene {
         this.physics.add.collider(self.sprite, this.player, () => {
             this.destroyEntity(self)
         })
+        this.physics.add.collider(self.sprite, this.enemyGroup)
         self.sprite.body.allowGravity = false
         self.sprite.body.immovable = true
     }, () => {})
