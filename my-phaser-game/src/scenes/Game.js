@@ -4,6 +4,8 @@ import { Scene } from 'phaser';
 //solange was drauf ist, schranke öffnet, restart, respawn
 //live level editing mit maus und saven
 
+const developerMode = true
+
 const jumpLevels = [
 
     200, 250, 300, 350, 400
@@ -23,6 +25,7 @@ export class Game extends Scene {
   create ()  {
     // Set background color
     this.cameras.main.setBackgroundColor(0x00ff00);
+    this.add.image(512, 384, 'background');
 
     // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
@@ -80,6 +83,14 @@ export class Game extends Scene {
     this.createSpike(200, 400, 180)
 
     this.dead = false
+
+    if (developerMode) {
+        this.input.on('pointerdown', (pointer) => {
+            const x = pointer.x;
+            const y = pointer.y;
+            this.createBox(x, y);
+        })
+    }
 
   }
 
@@ -226,12 +237,9 @@ export class Game extends Scene {
         }
     }
 
-    if (Phaser.Input.Keyboard.JustDown(this.ONE)) {
-        this.fatter()
-    }
-    
-    if (Phaser.Input.Keyboard.JustDown(this.TWO)) {
-        this.slimmer()
+    if (developerMode) {
+        if (Phaser.Input.Keyboard.JustDown(this.ONE)) this.fatter()
+        if (Phaser.Input.Keyboard.JustDown(this.TWO)) this.slimmer()
     }
 
     this.updateEntities()
