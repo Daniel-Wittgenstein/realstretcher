@@ -1,8 +1,11 @@
 import { Scene } from 'phaser';
+import tile from "./tile.js"
+import Levels from './Levels.js'
 
 //schalter der von dir und von kiste und von gegner aktiviert wird und nur
 //solange was drauf ist, schranke öffnet, restart, respawn
-//level saven und reloaden
+//levels mit stringtemplates machen. tu es einfach. viel einfacher und
+//besser
 
 const developerMode = 1
 
@@ -75,6 +78,8 @@ export class Game extends Scene {
 
     this.dead = false
 
+    this.loadLevel("test")
+
     if (developerMode) {
         this.input.on('pointerdown', (pointer) => {
             const gridX = 64
@@ -83,61 +88,7 @@ export class Game extends Scene {
             let y = pointer.y
             x = Math.round(x / gridX) * gridX
             y = Math.round(y / gridY) * gridY
-            let sel = this.devSelection
-            switch (sel) {
-                case 0:
-                    this.createWall(x - 32, y - 32, 2);
-                    break
-                case 1:
-                    this.createWall(x, y, 1);
-                    break
-                case 2:
-                    this.createWall(x-16, y, 0.5);
-                    break
-                case 3:
-                    this.createWall(x+16, y, 0.5);
-                    break
-                case 4:
-                    this.createWall(x, y, 0.5);
-                    break
-                case 5:
-                    this.createWall(x, y-24, 0.2);
-                    break
-                case 6:
-                    this.createWall(x, y-16, 0.5);
-                    break
-                case 7:
-                    this.createWall(x, y, 1);
-                    break
-
-
-                    
-                case 8:
-                    this.createBox(x, y);
-                    break
-                case 9:
-                    this.createEnemy(x, y);
-                    break
-                case 10:
-                    this.createFood(x, y, "slim");
-                    break
-                case 11:
-                    this.createFood(x, y, "fat");
-                    break
-                case 12:
-                    this.createSpike(x, y, 0);
-                    break
-                case 13:
-                    this.createSpike(x, y, 90);
-                    break
-                case 14:
-                    this.createSpike(x, y, 180);
-                    break
-                case 15:
-                    this.createSpike(x, y, 270);
-                    break
-            }
-            
+            let sel = this.devSelection            
         })
     }
 
@@ -276,6 +227,79 @@ export class Game extends Scene {
   fatter () {
     this.fatLevel--
     this.updatePlayerShape()
+  }
+
+  getLevelByName(levelName) {
+    for (const level of Levels) {
+        if (level.name === levelName) return level
+    }
+    throw new Error(`No level with name '${levelName}'.`)
+  }
+
+  loadLevel(levelName) {
+    const level = this.getLevelByName(levelName)
+    const tiles = level.tiles
+    const abst = 64
+    for (let row = 0; row < tiles.length; row++) {
+        for (let col = 0; col < tiles[row].length; col++) {
+            const x = col * abst
+            const y = row * abst
+            const val = tiles[row][col]
+            this.doCreate(x, y, val)
+        }
+    }
+  }
+
+  doCreate(x, y, sel) {
+    switch (sel) {
+        case tile.empty:
+            return
+        case tile.bigWall:
+            this.createWall(x - 32, y - 32, 2);
+            break
+        case tile.wall:
+            this.createWall(x, y, 1);
+            break
+        case tile.wallSmallLeft:
+            this.createWall(x-16, y, 0.5);
+            break
+        case tile.wallSmallRight:
+            this.createWall(x+16, y, 0.5);
+            break
+        case tile.wallSmallCenter:
+            this.createWall(x, y, 0.5);
+            break
+        case tile.wallSmallFat1Pass:
+            this.createWall(x, y-24, 0.2);
+            break
+        case tile.wallSmallFat2Pass:
+            this.createWall(x, y-16, 0.5);
+            break
+        case tile.box:
+            this.createBox(x, y);
+            break
+        case tile.enemy:
+            this.createEnemy(x, y);
+            break
+        case tile.slim:
+            this.createFood(x, y, "slim");
+            break
+        case tile.fat:
+            this.createFood(x, y, "fat");
+            break
+        case tile.spikeUp:
+            this.createSpike(x, y, 0);
+            break
+        case tile.spikeRight:
+            this.createSpike(x, y, 90);
+            break
+        case tile.spikeDown:
+            this.createSpike(x, y, 180);
+            break
+        case tile.spikeLeft:
+            this.createSpike(x, y, 270);
+            break
+    }
   }
 
   updatePlayerShape() {
