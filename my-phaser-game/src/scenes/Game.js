@@ -132,7 +132,8 @@ export class Game extends Scene {
     const texts = ["---", "wall", "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
     this.devSelection += x
     const txt = texts[this.devSelection]
-    console.log(txt)
+    const el = document.getElementById("dev-box")
+    el.innerHTML = txt
   }
 
   gameOver() {
