@@ -64,9 +64,19 @@ export class Game extends Scene
         self.sprite.setCollideWorldBounds(true)
         self.sprite.setBounce(0.2)
         this.physics.add.collider(self.sprite, this.walls)
+        self.dir = -1
     }, (self) => {
-        console.log("update")
-        self.sprite.setVelocityX(-100)
+        if (self.dir === -1) {
+            self.sprite.setVelocityX(-100)
+        } else {
+            self.sprite.setVelocityX(100)
+        }
+        if (self.sprite.body.blocked.left) {
+            self.dir = 1
+        }
+        if (self.sprite.body.blocked.right) {
+            self.dir = -1
+        }
     })
   }
 
