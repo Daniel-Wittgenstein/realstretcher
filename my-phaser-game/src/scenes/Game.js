@@ -342,7 +342,7 @@ export class Game extends Scene {
         case tile.empty:
             return
         case tile.switch:
-            this.createSwitch(x, y, "1")
+            this.createSwitch(x, y + 22, "1")
             break
         case tile.startPlayer:
             this.player.setPosition(x, y)
