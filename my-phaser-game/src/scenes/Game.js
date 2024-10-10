@@ -63,7 +63,14 @@ export class Game extends Scene
     this.enemy.setBounce(0.2);
     this.physics.add.collider(this.enemy, this.walls);
 */
-    this.createEntity("enemy", 400, 100, "enemy", (self) => {
+    this.createEnemy(100, 100)
+    this.createFood(100, 400, "slim")
+    this.createFood(300, 400, "fat")
+
+}
+
+  createEnemy(x, y) {
+    this.createEntity("enemy", x, y, "enemy", (self) => {
         self.sprite.setCollideWorldBounds(true)
         self.sprite.setBounce(0.2)
         this.physics.add.collider(self.sprite, this.walls)
@@ -82,6 +89,30 @@ export class Game extends Scene
             self.dir = -1
         }
     })
+  }
+
+  createFood(x, y, type) {
+    const img = type === "slim" ? "slim" : "fat"
+    this.createEntity("food", x, y, img, (self) => {
+        this.physics.add.collider(self.sprite, this.player, () => {
+            if (type === "slim") {
+                this.slimmer()
+            } else {
+                this.fatter()
+            }
+            this.destroyEntity(self)
+        })
+        self.sprite.body.allowGravity = false
+    }, (self) => {
+
+    })
+  }
+
+  destroyEntity(entity) {
+    if (entity.sprite) {
+        entity.sprite.destroy()
+    }
+    state.entities = state.entities.filter(en => en !== entity)
   }
 
   createEntity(type = "", x = 0, y = 0, img = "enemy", createFunc = () => {},
