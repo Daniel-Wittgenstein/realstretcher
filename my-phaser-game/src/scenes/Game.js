@@ -58,6 +58,9 @@ export class Game extends Scene {
     this.ONE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
     this.TWO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
 
+    this.devUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
+    this.devDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+
     this.fatLevel = 2
 
     this.jumpStrength = jumpLevels[2]
@@ -70,11 +73,8 @@ export class Game extends Scene {
         this.gameOver()
     })
 
-    /*
-    this.enemy = this.physics.add.sprite(400, 300, 'enemy').setCollideWorldBounds(true);
-    this.enemy.setBounce(0.2);
-    this.physics.add.collider(this.enemy, this.walls);
-*/
+    this.devSelection = 1
+
     this.createEnemy(100, 100)
     this.createFood(100, 400, "slim")
     this.createFood(300, 400, "fat")
@@ -86,12 +86,53 @@ export class Game extends Scene {
 
     if (developerMode) {
         this.input.on('pointerdown', (pointer) => {
-            const x = pointer.x;
-            const y = pointer.y;
-            this.createBox(x, y);
+            const x = pointer.x
+            const y = pointer.y
+            let sel = this.devSelection
+            switch (sel) {
+                case 1:
+                    this.createWall(x, y);
+                    break
+                case 2:
+                    this.createBox(x, y);
+                    break
+                case 3:
+                    this.createEnemy(x, y);
+                    break
+                case 4:
+                    this.createFood(x, y, "slim");
+                    break
+                case 5:
+                    this.createFood(x, y, "fat");
+                    break
+                case 6:
+                    this.createSpike(x, y, 0);
+                    break
+                case 7:
+                    this.createSpike(x, y, 90);
+                    break
+                case 8:
+                    this.createSpike(x, y, 180);
+                    break
+                case 9:
+                    this.createSpike(x, y, 270);
+                    break
+            }
+            
         })
     }
 
+  }
+
+  createWall(x, y) {
+    this.walls.create(x, y, 'ground').setScale(2).refreshBody()
+  }
+
+  devSelDo(x) {
+    const texts = ["---", "wall", "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
+    this.devSelection += x
+    const txt = texts[this.devSelection]
+    console.log(txt)
   }
 
   gameOver() {
@@ -240,6 +281,9 @@ export class Game extends Scene {
     if (developerMode) {
         if (Phaser.Input.Keyboard.JustDown(this.ONE)) this.fatter()
         if (Phaser.Input.Keyboard.JustDown(this.TWO)) this.slimmer()
+
+        if (Phaser.Input.Keyboard.JustDown(this.devUP)) this.devSelDo(1)
+        if (Phaser.Input.Keyboard.JustDown(this.devDOWN)) this.devSelDo(-1)
     }
 
     this.updateEntities()
