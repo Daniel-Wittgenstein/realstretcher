@@ -347,45 +347,32 @@ export class Game extends Scene {
             return
         
         case tile.levelEnd:
-            this.createLevelEnd(x, y)
+            this.createLevelEnd(x, y + 12)
             break
-
         case tile.switch1:
             this.createSwitch(x, y + 22, "1")
             break
         case tile.laser1:
             this.createLaser(x, y, "1")
             break
-
-                
         case tile.switch2:
             this.createSwitch(x, y + 22, "2")
             break
         case tile.laser2:
             this.createLaser(x, y, "2")
             break
-
-                
         case tile.switch3:
             this.createSwitch(x, y + 22, "3")
             break
         case tile.laser3:
             this.createLaser(x, y, "3")
             break
-
-                
         case tile.switch4:
             this.createSwitch(x, y + 22, "4")
             break
         case tile.laser4:
             this.createLaser(x, y, "4")
             break
-
-        
-            
-
-
-            
         case tile.startPlayer:
             this.player.setPosition(x, y)
             break
@@ -411,7 +398,7 @@ export class Game extends Scene {
             this.createWall(x, y-16, 0.5);
             break
         case tile.box:
-            this.createBox(x-32, y); //testing xyzzy -32 entfernen
+            this.createBox(x, y);
             break
         case tile.enemy:
             this.createEnemy(x, y);
