@@ -49,6 +49,8 @@ export class Game extends Scene {
     this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+    this.R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
     this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -76,7 +78,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.loadLevel("test")
+    this.gotoLevel("test")
 
     if (developerMode) {
         this.input.on('pointerdown', (pointer) => {
@@ -192,6 +194,26 @@ export class Game extends Scene {
     }, this.spikeGroup)
   }
 
+  gotoLevel(levelName) {
+    this.currentLevelName = levelName
+    this.restartLevel()
+  }
+
+  restartLevel() {
+    this.fatLevel = 2
+    this.player.body.setVelocity(0)
+    this.player.body.setAcceleration(0)
+    this.updatePlayerShape(false)
+    this.destroyAllEntities()
+    this.loadLevel(this.currentLevelName)
+  }
+
+  destroyAllEntities() {
+    for (const entity of state.entities) {
+        this.destroyEntity(entity)
+    }
+  }
+
   destroyEntity(entity) {
     if (entity.sprite) {
         entity.sprite.destroy()
@@ -303,7 +325,7 @@ export class Game extends Scene {
     }
   }
 
-  updatePlayerShape() {
+  updatePlayerShape(bounce = true) {
     if (this.fatLevel < 0) {
         this.fatLevel = 0
         return
@@ -312,7 +334,7 @@ export class Game extends Scene {
         this.fatLevel = 4
         return
     }
-    this.player.setVelocityY(-200);
+    if (bounce) this.player.setVelocityY(-200);
 
     if (this.fatLevel === 0) {
         this.player.setScale(3.2, 0.3)
@@ -347,6 +369,10 @@ export class Game extends Scene {
         if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
         this.player.setVelocityY(-this.jumpStrength);
         }
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.R)) {
+        this.restartLevel()
     }
 
     if (developerMode) {
