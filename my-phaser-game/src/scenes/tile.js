@@ -19,7 +19,7 @@ adds("empty", "bigWall", "wall", "wallSmallLeft", "wallSmallRight",
   "switch1", "laser1",
   "switch2", "laser2",
   "switch3", "laser3",
-  "switch4", "laser4", "levelEnd"
+  "switch4", "laser4", "levelEnd", "breakBlock"
 )
 
 export default obj

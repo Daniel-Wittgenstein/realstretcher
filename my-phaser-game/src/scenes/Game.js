@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 6 //start here xyzzy
+    this.level = 7 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -234,6 +234,16 @@ export class Game extends Scene {
     return null
   }
 
+  createBreakBlock(x, y) {
+    this.createEntity("breakBlock", x, y, "breakBlock", (self) => {
+        this.physics.add.collider(self.sprite, this.player, () => {
+            this.destroyEntity(self)
+        })
+        self.sprite.body.allowGravity = false
+        self.sprite.body.immovable = true
+    }, () => {})
+  }
+
   createLevelEnd(x, y) {
     this.createEntity("levelEnd", x, y, "flag", () => {
 
@@ -350,6 +360,10 @@ export class Game extends Scene {
         case tile.empty:
             return
         
+        case tile.breakBlock:
+            this.createBreakBlock(x, y)
+            break
+
         case tile.levelEnd:
             this.createLevelEnd(x, y + 12)
             break

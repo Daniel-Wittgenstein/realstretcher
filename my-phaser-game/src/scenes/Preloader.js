@@ -44,6 +44,7 @@ export class Preloader extends Scene
         this.load.image('switch', 'switch.png');
         this.load.image('switchOff', 'switch-off.png');
         this.load.image('flag', 'flag.png');
+        this.load.image('breakBlock', 'break-block.png');
     }
 
     create ()
