@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 
 //schalter der von dir und von kiste und von gegner aktiviert wird und nur
 //solange was drauf ist, schranke öffnet, restart, respawn
-//live level editing mit maus und saven
+//level saven und reloaden
 
 const developerMode = true
 
@@ -26,6 +26,8 @@ export class Game extends Scene {
     // Set background color
     this.cameras.main.setBackgroundColor(0x00ff00);
     this.add.image(512, 384, 'background');
+
+    if (developerMode) this.drawGrid()
 
     // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
@@ -86,8 +88,12 @@ export class Game extends Scene {
 
     if (developerMode) {
         this.input.on('pointerdown', (pointer) => {
-            const x = pointer.x
-            const y = pointer.y
+            const gridX = 64
+            const gridY = gridX
+            let x = pointer.x
+            let y = pointer.y
+            x = Math.round(x / gridX) * gridX
+            y = Math.round(y / gridY) * gridY
             let sel = this.devSelection
             switch (sel) {
                 case 1:
@@ -124,8 +130,31 @@ export class Game extends Scene {
 
   }
 
+
+  drawGrid() {
+    const gridSize = 64; // Set your grid size
+    const gridColor = 0x000000; // Grid line color
+    const offset = 32
+    
+    const graphics = this.add.graphics();
+    graphics.lineStyle(1, gridColor, 1); // Set line style (width, color, alpha)
+  
+    // Draw the grid
+    for (let x = 0; x < this.cameras.main.width; x += gridSize) {
+      graphics.moveTo(x + offset, 0 + offset);
+      graphics.lineTo(x + offset, this.cameras.main.height + offset);
+    }
+  
+    for (let y = 0; y < this.cameras.main.height; y += gridSize) {
+      graphics.moveTo(0 + offset, y + offset);
+      graphics.lineTo(this.cameras.main.width + offset, y + offset);
+    }
+  
+    graphics.strokePath(); // Draw the lines
+  }
+
   createWall(x, y) {
-    this.walls.create(x, y, 'ground').setScale(2).refreshBody()
+    this.walls.create(x, y, 'ground').setScale(1).refreshBody()
   }
 
   devSelDo(x) {
