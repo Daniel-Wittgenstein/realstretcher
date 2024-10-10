@@ -234,7 +234,7 @@ export class Game extends Scene {
   createSwitch(x, y, name) {
     this.createEntity("switch", x, y, "switch", (self) => {
         const func = () => {
-            self.activateCounter = 20
+            self.activateCounter = 24
             if (self.activated) return
             self.activated = true
             self.sprite.setTexture("switchOff")
@@ -341,14 +341,45 @@ export class Game extends Scene {
     switch (sel) {
         case tile.empty:
             return
-        case tile.switch:
+        
+        case tile.switch1:
             this.createSwitch(x, y + 22, "1")
             break
+        case tile.laser1:
+            this.createLaser(x, y, "1")
+            break
+
+                
+        case tile.switch2:
+            this.createSwitch(x, y + 22, "2")
+            break
+        case tile.laser2:
+            this.createLaser(x, y, "2")
+            break
+
+                
+        case tile.switch3:
+            this.createSwitch(x, y + 22, "3")
+            break
+        case tile.laser3:
+            this.createLaser(x, y, "3")
+            break
+
+                
+        case tile.switch4:
+            this.createSwitch(x, y + 22, "4")
+            break
+        case tile.laser4:
+            this.createLaser(x, y, "4")
+            break
+
+        
+            
+
+
+            
         case tile.startPlayer:
             this.player.setPosition(x, y)
-            break
-        case tile.laser:
-            this.createLaser(x, y, "1")
             break
         case tile.bigWall:
             this.createWall(x - 32, y - 32, 2);
