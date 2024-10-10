@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 7 //start here xyzzy
+    this.level = 10 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
