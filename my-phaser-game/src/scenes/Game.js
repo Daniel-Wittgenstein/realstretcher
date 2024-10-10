@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 5 //start here xyzzy
+    this.level = 6 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -452,7 +452,7 @@ export class Game extends Scene {
         this.player.setScale(0.666, 1.8)
         this.jumpStrength = jumpLevels[3]
     }  else if (this.fatLevel === 4) {
-        this.player.setScale(0.3, 3)
+        this.player.setScale(0.3, 2.8)
         this.jumpStrength = jumpLevels[4]
     }
   }
