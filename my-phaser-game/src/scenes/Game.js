@@ -4,8 +4,6 @@ import Levels from './Levels.js'
 
 //schalter der von dir und von kiste und von gegner aktiviert wird und nur
 //solange was drauf ist, schranke öffnet, restart, respawn
-//levels mit stringtemplates machen. tu es einfach. viel einfacher und
-//besser
 
 const developerMode = 1
 
@@ -254,6 +252,9 @@ export class Game extends Scene {
     switch (sel) {
         case tile.empty:
             return
+        case tile.startPlayer:
+            this.player.setPosition(x, y)
+            break
         case tile.bigWall:
             this.createWall(x - 32, y - 32, 2);
             break

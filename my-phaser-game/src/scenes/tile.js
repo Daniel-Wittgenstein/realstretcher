@@ -15,7 +15,7 @@ function adds(...args) {
 adds("empty", "bigWall", "wall", "wallSmallLeft", "wallSmallRight",
   "wallSmallCenter", "wallSmallFat1Pass", "wallSmallFat2Pass",
   "box", "enemy", "slim", "fat", "spikeUp", "spikeRight",
-  "spikeDown", "spikeLeft")
+  "spikeDown", "spikeLeft", "startPlayer")
 
 export default obj
 
