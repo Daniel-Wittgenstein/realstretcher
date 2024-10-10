@@ -7,6 +7,10 @@ const jumpLevels = [
 
 ]
 
+let state = {
+    entities: [],
+}
+
 export class Game extends Scene
 {
   constructor ()
@@ -30,7 +34,6 @@ export class Game extends Scene
     this.player = this.physics.add.sprite(400, 300, 'player').setCollideWorldBounds(true);
     this.player.setBounce(0.2);
 
-    // Enable collision between the player and the walls
     this.physics.add.collider(this.player, this.walls);
 
     // Keyboard input (WASD)
@@ -52,6 +55,33 @@ export class Game extends Scene
 
     this.jumpStrength = jumpLevels[2]
 
+    /*
+    this.enemy = this.physics.add.sprite(400, 300, 'enemy').setCollideWorldBounds(true);
+    this.enemy.setBounce(0.2);
+    this.physics.add.collider(this.enemy, this.walls);
+*/
+    this.createEntity("enemy", 400, 300, "enemy", (self) => {
+        self.sprite.setCollideWorldBounds(true)
+        self.sprite.setBounce(0.2)
+        this.physics.add.collider(self.sprite, this.walls)
+    }, (self) => {
+        console.log("update")
+        self.sprite.setVelocityX(-100)
+    })
+  }
+
+  createEntity(type = "", x = 0, y = 0, img = "enemy", createFunc = () => {},
+        updateFunc = () => {}) {
+    const entity = {type, updateFunc}
+    entity.sprite = this.physics.add.sprite(x, y, img)
+    createFunc(entity)
+    state.entities.push(entity)
+  }
+
+  updateEntities() {
+    for (const entity of state.entities) {
+        entity.updateFunc(entity)
+    }
   }
 
   slimmer () {
@@ -94,8 +124,8 @@ export class Game extends Scene
   }
   
 
-  update ()
-  {
+  update () {
+
     if (this.A.isDown || this.left.isDown) {
       this.player.setVelocityX(-160);
     } else if (this.D.isDown || this.right.isDown) {
@@ -104,7 +134,6 @@ export class Game extends Scene
       this.player.setVelocityX(0);
     }
 
-    // Player jump
     if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
       this.player.setVelocityY(-this.jumpStrength);
     }
@@ -117,6 +146,7 @@ export class Game extends Scene
         this.slimmer()
     }
 
+    this.updateEntities()
   }
 
 
