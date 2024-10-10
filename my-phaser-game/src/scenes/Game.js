@@ -100,30 +100,40 @@ export class Game extends Scene {
                 case 4:
                     this.createWall(x, y, 0.5);
                     break
-
-                
                 case 5:
-                    this.createBox(x, y);
+                    this.createWall(x, y-24, 0.2);
                     break
                 case 6:
-                    this.createEnemy(x, y);
+                    this.createWall(x, y-16, 0.5);
                     break
                 case 7:
-                    this.createFood(x, y, "slim");
+                    this.createWall(x, y, 1);
                     break
+
+
+                    
                 case 8:
-                    this.createFood(x, y, "fat");
+                    this.createBox(x, y);
                     break
                 case 9:
-                    this.createSpike(x, y, 0);
+                    this.createEnemy(x, y);
                     break
                 case 10:
-                    this.createSpike(x, y, 90);
+                    this.createFood(x, y, "slim");
                     break
                 case 11:
-                    this.createSpike(x, y, 180);
+                    this.createFood(x, y, "fat");
                     break
                 case 12:
+                    this.createSpike(x, y, 0);
+                    break
+                case 13:
+                    this.createSpike(x, y, 90);
+                    break
+                case 14:
+                    this.createSpike(x, y, 180);
+                    break
+                case 15:
                     this.createSpike(x, y, 270);
                     break
             }
@@ -161,7 +171,10 @@ export class Game extends Scene {
   }
 
   devSelDo(x) {
-    const texts = ["wall big", "wall std", "wall small left", "wall small right", "wall small mid", "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
+    const texts = ["wall big", "wall std",
+        "wall small left", "wall small right", "wall small mid",
+        "wall need fat 1", "wall need fat 2", "wall std 2",
+        "box", "enemy", "slim", "fat", "spike up", "spike to right", "spike down", "spike to left", ]
     this.devSelection += x
     const txt = texts[this.devSelection]
     const el = document.getElementById("dev-box")
@@ -277,10 +290,10 @@ export class Game extends Scene {
     this.player.setVelocityY(-200);
 
     if (this.fatLevel === 0) {
-        this.player.setScale(3, 0.3)
+        this.player.setScale(3.2, 0.3)
         this.jumpStrength = jumpLevels[0]
     } else if (this.fatLevel === 1) {
-        this.player.setScale(2, 0.666)
+        this.player.setScale(1.75, 0.666)
         this.jumpStrength = jumpLevels[1]
     } else if (this.fatLevel === 2) {
         this.player.setScale(1, 1)
