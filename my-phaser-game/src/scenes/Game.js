@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 
-//stacheln, schalter der von dir und von kiste und von gegner aktiviert wird und nur
-//solange was drauf ist, schranke öffnet
+//schalter der von dir und von kiste und von gegner aktiviert wird und nur
+//solange was drauf ist, schranke öffnet, restart, respawn
 //live level editing mit maus und saven
 
 const jumpLevels = [
