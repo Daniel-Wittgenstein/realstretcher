@@ -92,7 +92,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 10 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -393,7 +393,7 @@ export class Game extends Scene {
             break
 
         case tile.levelEnd:
-            this.createLevelEnd(x, y + 12)
+            this.createLevelEnd(x, y + 2)
             break
         case tile.switch1:
             this.createSwitch(x, y + 22, "1")
