@@ -48,7 +48,6 @@ const levels = [
       [w,   _,   _,   _,   _,   _,   _,   _,   _,   _,   S,   _,   _,   w,   _,   w,   w],  
       [w,   _,   Ä,   _,   _,   _,   _,   _,   _,   _,   _,   _,   w,   w,   Ü,   w,   w],  
     ],
-    color: "yellow",
   },  
 
   {
@@ -105,6 +104,7 @@ const levels = [
       [w,   _,   _,   _,   w,   $,   $,   $,   $,   $,   $,   $,   $,   w,   w,   w,   w],  
     ],
     showWindow2: true,
+    color: "yellow",
   },  
 
   {
@@ -140,7 +140,8 @@ const levels = [
       [w,   w,   _,   _,   _,   _,   y,   x,   c,   F,   _,   Ü,   w,   _,   _,   _,   w],  
       [w,   w,   _,   S,   _,   _,   w,   w,   w,   _,   _,   w,   w,   _,   _,   _,   w],  
       [w,   w,   C,   _,   _,   ä,   ä,   f,   F,   _,   _,   w,   w,   Y,   _,   X,   w],  
-    ]
+    ],
+    color: "yellow",
   },  
 
 
@@ -161,7 +162,6 @@ const levels = [
       [w,   w,   w,   _,   X,   _,   _,   _,   Y,   _,   _,   _,   _,   w,   w,   w,   w],  
     ],
     showWindow2: true,
-    color: "yellow",
   },  
 
   {
@@ -215,7 +215,8 @@ const levels = [
       [w,   w,   w,   w,   _,   _,   _,   _,   _,   _,   _,   _,   _,   _,   _,   w,   w],  
       [w,   w,   w,   w,   _,   _,   _,   B,   _,   _,   _,   _,   _,   _,   _,   _,   w],  
       [w,   w,   w,   w,   $,   $,   $,   $,   $,   $,   $,   $,   $,   $,   $,   $,   w],  
-    ]
+    ],
+    color: "yellow",
   },  
   {
     name: "level 11",  
