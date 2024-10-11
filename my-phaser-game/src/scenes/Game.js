@@ -94,15 +94,10 @@ export class Game extends Scene {
         this.gotoLevel(this.level)
     })
 
-    this.mask = this.add.sprite(-10000, -1000, 'mask')
-    this.mask.setDepth(10)
-
+    
     this.devSelection = 1
 
     this.dead = false
-
-    this.setCameraDark()
-    this.setCameraNormal()
 
     this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
@@ -389,11 +384,6 @@ export class Game extends Scene {
     this.colorScheme = color
   }
 
-  setCameraDark() {
-    this.camera.startFollow(this.player)
-    this.camera.setZoom(2)
-  }
-
   setCameraNormal() {
     this.camera.stopFollow()
     this.camera.setPosition(0, 0)
@@ -402,15 +392,6 @@ export class Game extends Scene {
 
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
-
-    if (level.dark) {
-        this.currentlyDark = true
-        this.setCameraDark()
-    } else {
-        this.currentlyDark = false
-        this.mask.x = -10000
-        this.setCameraNormal()
-    }
 
     this.window1.setVisible(!!level.showWindow1)
     this.window2.setVisible(!!level.showWindow2)
@@ -546,11 +527,7 @@ export class Game extends Scene {
     }
   }
 
-  updateMaskPos() {
-    if (!this.currentlyDark) return
-    const camera = this.cameras.main
-    this.mask.setPosition(camera.scrollX + camera.width / 2, camera.scrollY + camera.height / 2)
-  }
+  
 
   update () {
 
@@ -581,8 +558,7 @@ export class Game extends Scene {
         }
     }
 
-    this.updateMaskPos()
-
+    
     if (Phaser.Input.Keyboard.JustDown(this.R)) {
         this.restartLevel()
     }
