@@ -31,7 +31,8 @@ export class Game extends Scene {
   create ()  {
     // Set background color
     this.cameras.main.setBackgroundColor(0x00ff00);
-    this.add.image(512, 384, 'background');
+    this.add.tileSprite(0, 0, 1024, 768, 'bg').setOrigin(0, 0)
+    
 
     if (developerMode) this.drawGrid()
 
