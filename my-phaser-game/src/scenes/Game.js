@@ -10,7 +10,7 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-const developerMode = 0
+const developerMode = 1
 
 const jumpLevels = [
 
@@ -498,6 +498,9 @@ export class Game extends Scene {
             break
         case tile.wall:
             this.createWall(x, y, 1);
+            break
+        case tile.miniGunWall:
+            this.createWall(x - 10, y + 16, 0.25);
             break
         case tile.wallSmallLeft:
             this.createWall(x-16, y, 0.5);
