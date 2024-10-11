@@ -61,6 +61,9 @@ export class Preloader extends Scene
         this.load.image('flag-yellow', 'exit2.png');
         this.load.image('switchOff-yellow', 'switch-yellow.png');
 
+        this.load.image('gun', 'gun.png');
+        this.load.image('bullet', 'bullet.png');
+
         this.load.image('mask', 'mask.png');
 
 

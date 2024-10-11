@@ -77,6 +77,8 @@ export class Game extends Scene {
     this.spikeGroup = this.physics.add.staticGroup()
     this.enemyGroup = this.physics.add.group()
     this.boxGroup = this.physics.add.group()
+    this.bulletGroup = this.physics.add.group()
+    
     this.laserGroup = this.physics.add.staticGroup()
     this.levelEndGroup = this.physics.add.staticGroup()
 
@@ -99,7 +101,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 12 - 1 //start here xyzzy
+    this.level = 13 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -169,6 +171,9 @@ export class Game extends Scene {
         self.sprite.setBounce(0.2)
         this.physics.add.collider(self.sprite, this.walls)
         this.physics.add.collider(self.sprite, this.player)
+        this.physics.add.collider(self.sprite, this.bulletGroup, () => {
+            this.destroyEntity(self)
+        })
         self.dir = -1
     }, (self) => {
         if (self.dir === -1) {
@@ -265,6 +270,41 @@ export class Game extends Scene {
         self.sprite.body.immovable = true
     }, () => {})
   }
+
+  createGun(x, y) {
+    this.createEntity("gun", x, y, "gun", (self) => {
+        this.physics.add.collider(self.sprite, this.walls)
+        this.physics.add.collider(self.sprite, this.player)
+        self.sprite.body.drag.x = 1000
+        self.counter = 0
+    }, (self) => {
+        self.counter++
+        if (self.counter >= 100) {
+            self.counter = 0
+            this.createBullet(self.sprite.x + 20, self.sprite.y - 6)
+        }
+    })
+  }
+
+  
+  createBullet(x, y) {
+    this.createEntity("bullet", x, y, "bullet", (self) => {
+        this.physics.add.collider(self.sprite, this.player, () => {
+            this.gameOver()
+        })
+        this.physics.add.collider(self.sprite, this.boxGroup, () => {
+            this.destroyEntity(self)
+        })
+        this.physics.add.collider(self.sprite, this.walls, () => {
+            this.destroyEntity(self)
+        })
+        self.sprite.body.setVelocityX(800)
+        self.sprite.body.allowGravity = false
+    }, () => {
+    }, this.bulletGroup)
+  }
+
+  
 
   createLevelEnd(x, y) {
     this.createEntity("levelEnd", x, y, "flag" + this.colorScheme, () => {
@@ -416,6 +456,9 @@ export class Game extends Scene {
         case tile.empty:
             return
         
+        case tile.gun:
+            this.createGun(x, y)
+            break;
         case tile.breakBlock:
             this.createBreakBlock(x, y)
             break
