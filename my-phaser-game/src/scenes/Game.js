@@ -28,29 +28,29 @@ export class Game extends Scene {
     super('Game');
   }
 
-  create ()  {
-    // Set background color
-    this.cameras.main.setBackgroundColor(0x202020);
-    this.camera = this.cameras.main
+  create()  {
 
-    this.add.tileSprite(0, 0, 1024, 768, 'bg').setOrigin(0, 0)
+    const camera = this.cameras.main
+    this.camera = camera
+
+    camera.setBackgroundColor(0x202020);
+
+    this.add.tileSprite(0, 0, 1400, 768, 'bg').setOrigin(0, 0)
     
     this.window1 = this.add.image(160, 160, 'window')
     this.window2 = this.add.image(800, 240, 'window')
     
     if (developerMode) this.drawGrid()
 
-    // Create static walls around the screen
     this.walls = this.physics.add.staticGroup();
 
-    // Create the player (a simple box)
-    this.player = this.physics.add.sprite(400, 300, "player-right").setCollideWorldBounds(true);
+
+    this.player = this.physics.add.sprite(400, 300, "player-right")
     this.player.setBounce(0.2);
 
 
     this.physics.add.collider(this.player, this.walls);
 
-    // Keyboard input (WASD)
     this.cursors = this.input.keyboard.createCursorKeys();
     this.W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -101,8 +101,10 @@ export class Game extends Scene {
 
     this.dead = false
 
+    this.setCameraDark()
+    this.setCameraNormal()
 
-    this.level = 12 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -169,7 +171,6 @@ export class Game extends Scene {
 
   createEnemy(x, y) {
     this.createEntity("enemy", x, y, "enemy", (self) => {
-        self.sprite.setCollideWorldBounds(true)
         self.sprite.setBounce(0.2)
         this.physics.add.collider(self.sprite, this.walls)
         this.physics.add.collider(self.sprite, this.player)
@@ -390,14 +391,13 @@ export class Game extends Scene {
 
   setCameraDark() {
     this.camera.startFollow(this.player)
-    this.camera.setZoom(2.4)
+    this.camera.setZoom(2)
   }
 
   setCameraNormal() {
     this.camera.stopFollow()
     this.camera.setPosition(0, 0)
     this.camera.setZoom(1)
-    this.camera.setBounds(0, 0, 1024, 768)
   }
 
   loadLevel(levelIndex) {
