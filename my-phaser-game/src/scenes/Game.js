@@ -33,7 +33,9 @@ export class Game extends Scene {
     this.cameras.main.setBackgroundColor(0x00ff00);
     this.add.tileSprite(0, 0, 1024, 768, 'bg').setOrigin(0, 0)
     
-
+    this.window1 = this.add.image(160, 160, 'window')
+    this.window2 = this.add.image(800, 240, 'window')
+    
     if (developerMode) this.drawGrid()
 
     // Create static walls around the screen
@@ -372,6 +374,9 @@ export class Game extends Scene {
 
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
+    this.window1.setVisible(!!level.showWindow1)
+    this.window2.setVisible(!!level.showWindow2)
+
     const tiles = level.tiles
     const abst = 64
     for (let row = 0; row < tiles.length; row++) {
