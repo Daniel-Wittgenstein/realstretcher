@@ -34,8 +34,7 @@ export class Preloader extends Scene
 
         this.load.image('ground', 'block5.png');
         this.load.image('ground2', 'block6.png');
-        this.load.image('player-right', 'du.png');
-        this.load.image('player-left', 'du-left.png');
+
         this.load.image('bg', 'bg.png');
         this.load.image('window', 'window.png');
 
@@ -44,13 +43,26 @@ export class Preloader extends Scene
         this.load.image('fat', 'fat.png');
         this.load.image('box', 'box.png');
         this.load.image('spike', 'spike.png');
-        this.load.image('dead', 'dead2.png');
+
         this.load.image('laser', 'laser.png');
         this.load.image('laser2', 'laser2.png');
         this.load.image('switch', 'switch-blue.png');
-        this.load.image('switchOff', 'switch-red.png');
-        this.load.image('flag', 'exit.png');
         this.load.image('breakBlock', 'block-breaki.png');
+
+        this.load.image('player-right', 'du.png');
+        this.load.image('player-left', 'du-left.png');
+        this.load.image('dead', 'dead.png');
+        this.load.image('flag', 'exit.png');
+        this.load.image('switchOff', 'switch-red.png');
+
+        this.load.image('player-right-yellow', 'du2.png');
+        this.load.image('player-left-yellow', 'du-left2.png');
+        this.load.image('dead-yellow', 'dead2.png');
+        this.load.image('flag-yellow', 'exit2.png');
+        this.load.image('switchOff-yellow', 'switch-yellow.png');
+
+
+
     }
 
     create ()

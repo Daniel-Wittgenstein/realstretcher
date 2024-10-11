@@ -48,6 +48,7 @@ const levels = [
       [w,   _,   _,   _,   _,   _,   _,   _,   _,   _,   S,   _,   _,   w,   _,   w,   w],  
       [w,   _,   Ä,   _,   _,   _,   _,   _,   _,   _,   _,   _,   w,   w,   Ü,   w,   w],  
     ],
+    color: "yellow",
   },  
 
   {
@@ -160,6 +161,7 @@ const levels = [
       [w,   w,   w,   _,   X,   _,   _,   _,   Y,   _,   _,   _,   _,   w,   w,   w,   w],  
     ],
     showWindow2: true,
+    color: "yellow",
   },  
 
   {

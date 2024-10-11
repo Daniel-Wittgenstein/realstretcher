@@ -95,7 +95,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 11 - 1 //start here xyzzy
+    this.level = 7 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -155,7 +155,7 @@ export class Game extends Scene {
   gameOver() {
     if (this.dead) return
     this.dead = true
-    this.player.setTexture('dead')
+    this.player.setTexture('dead' + this.colorScheme)
     this.player.setVelocityY(-200)
     this.deadCounter = 100
   }
@@ -264,7 +264,7 @@ export class Game extends Scene {
   }
 
   createLevelEnd(x, y) {
-    this.createEntity("levelEnd", x, y, "flag", () => {
+    this.createEntity("levelEnd", x, y, "flag" + this.colorScheme, () => {
 
     }, () => {}, this.levelEndGroup)
   }
@@ -275,7 +275,7 @@ export class Game extends Scene {
             self.activateCounter = 24
             if (self.activated) return
             self.activated = true
-            self.sprite.setTexture("switchOff")
+            self.sprite.setTexture("switchOff" + this.colorScheme)
             const laser = this.getEntityByName("laser-" + name)
             if (!laser) return
             self.laserPosX = laser.sprite.x
@@ -306,9 +306,9 @@ export class Game extends Scene {
 
   updatePlayerSprite() {
     if (this.playerDir === -1) {
-        this.player.setTexture("player-left")
+        this.player.setTexture("player-left" + this.colorScheme)
     } else {
-        this.player.setTexture("player-right")
+        this.player.setTexture("player-right" + this.colorScheme)
     }
   }
 
@@ -372,10 +372,22 @@ export class Game extends Scene {
     this.updatePlayerShape()
   }
 
+  updateColorScheme(color) {
+    if (!color) {
+        color = ""
+    } else {
+        color = "-" + color
+    }
+    this.colorScheme = color
+  }
+
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
     this.window1.setVisible(!!level.showWindow1)
     this.window2.setVisible(!!level.showWindow2)
+
+    this.updateColorScheme(level.color)
+    this.player.setTexture("player-right" + this.colorScheme)
 
     const tiles = level.tiles
     const abst = 64
@@ -512,7 +524,7 @@ export class Game extends Scene {
         this.deadCounter--
         if (this.deadCounter <= 0) {
             this.dead = false
-            this.player.setTexture('player')
+            this.player.setTexture('player' + this.colorScheme)
             this.restartLevel()
         }
     }
