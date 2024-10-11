@@ -88,7 +88,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 6 - 1 //start here xyzzy
+    this.level = 11 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -239,6 +239,7 @@ export class Game extends Scene {
         this.physics.add.collider(self.sprite, this.player, () => {
             this.destroyEntity(self)
         })
+        this.physics.add.collider(self.sprite, this.boxGroup)
         this.physics.add.collider(self.sprite, this.enemyGroup)
         self.sprite.body.allowGravity = false
         self.sprite.body.immovable = true
