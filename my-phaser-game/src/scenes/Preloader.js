@@ -32,19 +32,23 @@ export class Preloader extends Scene
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
 
-        this.load.image('ground', 'ground.png');
-        this.load.image('player', 'player.png');
+        this.load.image('ground', 'block5.png');
+        this.load.image('ground2', 'block6.png');
+        this.load.image('player-right', 'du.png');
+        this.load.image('player-left', 'du-left.png');
+        
         this.load.image('enemy', 'enemy.png');
-        this.load.image('slim', 'slim.png');
-        this.load.image('fat', 'fat.png');
+        this.load.image('slim', 'slim-blue.png');
+        this.load.image('fat', 'fat-blue.png');
         this.load.image('box', 'box.png');
         this.load.image('spike', 'spike.png');
-        this.load.image('dead', 'dead.png');
+        this.load.image('dead', 'dead2.png');
         this.load.image('laser', 'laser.png');
-        this.load.image('switch', 'switch.png');
-        this.load.image('switchOff', 'switch-off.png');
-        this.load.image('flag', 'flag.png');
-        this.load.image('breakBlock', 'break-block.png');
+        this.load.image('laser2', 'laser2.png');
+        this.load.image('switch', 'switch-blue.png');
+        this.load.image('switchOff', 'switch-red.png');
+        this.load.image('flag', 'exit-red.png');
+        this.load.image('breakBlock', 'block-breaki.png');
     }
 
     create ()

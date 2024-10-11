@@ -6,7 +6,11 @@ import Levels from './Levels.js'
 //evtl. schiesser / gegner stacheln geben
 //level end -> next level
 
-const developerMode = 1
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
+const developerMode = 0
 
 const jumpLevels = [
 
@@ -35,7 +39,7 @@ export class Game extends Scene {
     this.walls = this.physics.add.staticGroup();
 
     // Create the player (a simple box)
-    this.player = this.physics.add.sprite(400, 300, 'player').setCollideWorldBounds(true);
+    this.player = this.physics.add.sprite(400, 300, "player-right").setCollideWorldBounds(true);
     this.player.setBounce(0.2);
 
     this.physics.add.collider(this.player, this.walls);
@@ -88,7 +92,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 11 - 1 //start here xyzzy
+    this.level = 10 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -129,7 +133,8 @@ export class Game extends Scene {
   }
 
   createWall(x, y, scale) {
-    this.walls.create(x, y, 'ground').setScale(scale).refreshBody()
+    const img = (randomInteger(1, 100) <= 20) ? "ground2" : "ground"
+    this.walls.create(x, y, img).setScale(scale).refreshBody()
   }
 
 
@@ -212,7 +217,16 @@ export class Game extends Scene {
   createLaser(x, y, name) {
     this.createEntity("laser", x, y, "laser", (self) => {
         self.name = "laser-" + name
-    }, (self) => {}, this.laserGroup)
+        self.counter = 0
+        self.currentImgC = false
+    }, (self) => {
+        self.counter ++
+        if (self.counter >= 10) {
+            self.counter = 0
+            self.currentImgC = !self.currentImgC
+            self.sprite.setTexture(self.currentImgC ? "laser" : "laser2")
+        }
+    }, this.laserGroup)
   }
 
   disactivateLaser(laserName) {
@@ -287,13 +301,25 @@ export class Game extends Scene {
     this.restartLevel()
   }
 
+  updatePlayerSprite() {
+    if (this.playerDir === -1) {
+        this.player.setTexture("player-left")
+    } else {
+        this.player.setTexture("player-right")
+    }
+  }
+
   restartLevel() {
+    this.playerDir = 1
+    this. updatePlayerSprite()
     this.fatLevel = 2
     this.player.body.setVelocity(0)
     this.player.body.setAcceleration(0)
     this.updatePlayerShape(false)
     this.destroyAllWalls()
-    this.walls.create(0, 768, 'ground').setScale(60, 1).refreshBody();
+    const img = "ground"
+    //create floor: todo: should not be stretched image
+    this.walls.create(0, 768, img).setScale(60, 1).refreshBody();
     this.destroyAllEntities()
     this.loadLevel(this.currentLevelIndex)
   }
@@ -487,11 +513,15 @@ export class Game extends Scene {
 
     if (!this.dead) {
         if (this.A.isDown || this.left.isDown) {
-        this.player.setVelocityX(-160);
+            this.player.setVelocityX(-160);
+            this.playerDir = -1
+            this.updatePlayerSprite()
         } else if (this.D.isDown || this.right.isDown) {
-        this.player.setVelocityX(160);
+            this.player.setVelocityX(160);
+            this.playerDir = 1
+            this.updatePlayerSprite()
         } else {
-        this.player.setVelocityX(0);
+            this.player.setVelocityX(0);
         }
 
         if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
