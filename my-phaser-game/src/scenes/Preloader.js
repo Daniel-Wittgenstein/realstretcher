@@ -38,8 +38,8 @@ export class Preloader extends Scene
         this.load.image('player-left', 'du-left.png');
         
         this.load.image('enemy', 'enemy.png');
-        this.load.image('slim', 'slim-blue.png');
-        this.load.image('fat', 'fat-blue.png');
+        this.load.image('slim', 'slim.png');
+        this.load.image('fat', 'fat.png');
         this.load.image('box', 'box.png');
         this.load.image('spike', 'spike.png');
         this.load.image('dead', 'dead2.png');
@@ -47,7 +47,7 @@ export class Preloader extends Scene
         this.load.image('laser2', 'laser2.png');
         this.load.image('switch', 'switch-blue.png');
         this.load.image('switchOff', 'switch-red.png');
-        this.load.image('flag', 'exit-red.png');
+        this.load.image('flag', 'exit.png');
         this.load.image('breakBlock', 'block-breaki.png');
     }
 
