@@ -30,7 +30,9 @@ export class Game extends Scene {
 
   create ()  {
     // Set background color
-    this.cameras.main.setBackgroundColor(0x00ff00);
+    this.cameras.main.setBackgroundColor(0x202020);
+    this.camera = this.cameras.main
+
     this.add.tileSprite(0, 0, 1024, 768, 'bg').setOrigin(0, 0)
     
     this.window1 = this.add.image(160, 160, 'window')
@@ -44,6 +46,7 @@ export class Game extends Scene {
     // Create the player (a simple box)
     this.player = this.physics.add.sprite(400, 300, "player-right").setCollideWorldBounds(true);
     this.player.setBounce(0.2);
+
 
     this.physics.add.collider(this.player, this.walls);
 
@@ -91,11 +94,15 @@ export class Game extends Scene {
         this.gotoLevel(this.level)
     })
 
+    this.mask = this.add.sprite(-10000, -1000, 'mask')
+    this.mask.setDepth(10)
+
     this.devSelection = 1
 
     this.dead = false
 
-    this.level = 1 - 1 //start here xyzzy
+
+    this.level = 12 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -381,8 +388,30 @@ export class Game extends Scene {
     this.colorScheme = color
   }
 
+  setCameraDark() {
+    this.camera.startFollow(this.player)
+    this.camera.setZoom(2.4)
+  }
+
+  setCameraNormal() {
+    this.camera.stopFollow()
+    this.camera.setPosition(0, 0)
+    this.camera.setZoom(1)
+    this.camera.setBounds(0, 0, 1024, 768)
+  }
+
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
+
+    if (level.dark) {
+        this.currentlyDark = true
+        this.setCameraDark()
+    } else {
+        this.currentlyDark = false
+        this.mask.x = -10000
+        this.setCameraNormal()
+    }
+
     this.window1.setVisible(!!level.showWindow1)
     this.window2.setVisible(!!level.showWindow2)
 
@@ -516,7 +545,12 @@ export class Game extends Scene {
         this.jumpStrength = jumpLevels[4]
     }
   }
-  
+
+  updateMaskPos() {
+    if (!this.currentlyDark) return
+    const camera = this.cameras.main
+    this.mask.setPosition(camera.scrollX + camera.width / 2, camera.scrollY + camera.height / 2)
+  }
 
   update () {
 
@@ -543,9 +577,11 @@ export class Game extends Scene {
         }
 
         if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
-        this.player.setVelocityY(-this.jumpStrength);
+            this.player.setVelocityY(-this.jumpStrength);
         }
     }
+
+    this.updateMaskPos()
 
     if (Phaser.Input.Keyboard.JustDown(this.R)) {
         this.restartLevel()
