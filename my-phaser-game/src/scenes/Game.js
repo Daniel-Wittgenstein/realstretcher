@@ -66,6 +66,7 @@ export class Game extends Scene {
 
     this.ONE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
     this.TWO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+    this.THREE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
 
     this.devUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
     this.devDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
@@ -92,8 +93,7 @@ export class Game extends Scene {
     })
     this.physics.add.collider(this.player, this.levelEndGroup, () => {
         if (this.dead) return
-        this.level++
-        this.gotoLevel(this.level)
+        this.gotoNextLevel()
     })
 
     
@@ -101,7 +101,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 13 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -340,6 +340,11 @@ export class Game extends Scene {
             }
         }
     })
+  }
+
+  gotoNextLevel() {
+    this.level++
+    this.gotoLevel(this.level)
   }
 
   gotoLevel(index) {
@@ -612,6 +617,8 @@ export class Game extends Scene {
     if (developerMode) {
         if (Phaser.Input.Keyboard.JustDown(this.ONE)) this.fatter()
         if (Phaser.Input.Keyboard.JustDown(this.TWO)) this.slimmer()
+
+        if (Phaser.Input.Keyboard.JustDown(this.THREE)) this.gotoNextLevel()
 
         if (Phaser.Input.Keyboard.JustDown(this.devUP)) this.devSelDo(1)
         if (Phaser.Input.Keyboard.JustDown(this.devDOWN)) this.devSelDo(-1)
