@@ -103,7 +103,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 18 - 1//start here xyzzy
+    this.level = 11 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -276,11 +276,47 @@ export class Game extends Scene {
     return null
   }
 
+  createDebris(self, vx, vy, torque) {
+    self.sprite.body.setVelocityX(vx)
+    self.sprite.body.setVelocityY(vy)
+    self.sprite.angle = 0
+    self.counter = 140
+  }
+
+  updateDebris(self, torque) {
+    self.sprite.angle += torque
+    self.counter--
+    if (self.counter <= 0) {
+        this.destroyEntity(self)
+    }
+  }
+
   createBreakBlock(x, y) {
     this.createEntity("breakBlock", x, y, "breakBlock", (self) => {
-        this.physics.add.collider(self.sprite, this.player, () => {
-            this.destroyEntity(self)
-        })
+        this.physics.add.collider(self.sprite, this.player,
+            () => {
+                this.destroyEntity(self)
+                const vs = [
+                    {sx: 0, sy: 0, x: -90, y: -100, torque: -2 },
+                    {sx: 4, sy: -4, x: -60, y: -110, torque: -3 },
+                    {sx: 2, sy: -7, x: -30, y: -100, torque: -4 },
+                    {sx: 3, sy: 7, x: -30, y: -120, torque: -4 },
+
+                    {sx: 0, sy: 0, x: 90, y: -100, torque: -2 },
+                    {sx: 4, sy: -4, x: 60, y: -90, torque: -3 },
+                    {sx: 2, sy: -7, x: 30, y: -100, torque: -4 },
+                    {sx: 3, sy: 7, x: 30, y: -120, torque: -4 },
+                ]
+                for (let i = 0; i < vs.length; i++) {
+                    const v = vs[i]
+                    this.createEntity("debris", x + v.sx, y + v.sy, "debris",
+                        (self) => this.createDebris(self, v.x, v.y),
+                        (self) => this.updateDebris(self, v.torque) )
+                }
+            },
+            () => {}
+        )
+
         this.physics.add.collider(self.sprite, this.boxGroup)
         this.physics.add.collider(self.sprite, this.enemyGroup)
         self.sprite.body.allowGravity = false

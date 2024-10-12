@@ -32,6 +32,8 @@ export class Preloader extends Scene
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
 
+        this.load.image('debris', 'debris.png');
+
         this.load.image('ground', 'block5.png');
         this.load.image('ground2', 'block6.png');
 
@@ -70,7 +72,7 @@ export class Preloader extends Scene
         this.load.image('bullet', 'bullet.png');
         this.load.image('bullet-yellow', 'bullet-yellow.png');
 
-        this.load.image('mask', 'mask.png');
+        
 
 
 
