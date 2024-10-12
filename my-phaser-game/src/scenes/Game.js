@@ -103,7 +103,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 23 - 1 //start here xyzzy
+    this.level = 24 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -472,6 +472,11 @@ export class Game extends Scene {
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
 
+    if (this.level === 23) {
+        this.add.sprite(1024 / 2, 768 / 2, 'trophy')
+        this.noUpdate = true
+    }
+
     if (this.secretCorr) {
         for (const item of this.secretCorr) {
             item.destroy()
@@ -633,7 +638,9 @@ export class Game extends Scene {
 
   
 
-  update () {
+  update() {
+
+    if (this.noUpdate) return
 
     if (this.dead) {
         this.deadCounter--
@@ -668,6 +675,7 @@ export class Game extends Scene {
 
     
     if (Phaser.Input.Keyboard.JustDown(this.R)) {
+        this.dead = false
         this.restartLevel()
     }
 
