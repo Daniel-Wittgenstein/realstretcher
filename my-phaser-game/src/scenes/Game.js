@@ -402,6 +402,7 @@ export class Game extends Scene {
   }
 
   gotoNextLevel() {
+    this.play("levelend")
     this.level++
     this.gotoLevel(this.level)
   }

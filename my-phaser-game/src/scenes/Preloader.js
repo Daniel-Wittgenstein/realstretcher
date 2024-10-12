@@ -34,6 +34,7 @@ export class Preloader extends Scene
         this.load.audio('jump', '/assets/audio/jump.ogg')
         this.load.audio('die', '/assets/audio/die.ogg')
         this.load.audio('switch', '/assets/audio/switch.ogg')
+        this.load.audio('levelend', '/assets/audio/levelend.wav')
 
         this.load.setPath('assets');
 
