@@ -683,7 +683,11 @@ export class Game extends Scene {
 
   play(sound) {
     if (!this.soundOn) return
-    this.sound.play(sound)
+    try {
+        this.sound.play(sound)
+    } catch {
+
+    }
   }
   
 

@@ -29,12 +29,12 @@ export class Preloader extends Scene
     preload ()
     {
 
-        this.load.audio('break', '/assets/audio/break.ogg')
-        this.load.audio('change', '/assets/audio/change.ogg')
-        this.load.audio('jump', '/assets/audio/jump.ogg')
-        this.load.audio('die', '/assets/audio/die.ogg')
-        this.load.audio('switch', '/assets/audio/switch.ogg')
-        this.load.audio('levelend', '/assets/audio/levelend.wav')
+        this.load.audio('break', '/assets/break.ogg')
+        this.load.audio('change', '/assets/change.ogg')
+        this.load.audio('jump', '/assets/jump.ogg')
+        this.load.audio('die', '/assets/die.ogg')
+        this.load.audio('switch', '/assets/switch.ogg')
+        this.load.audio('levelend', '/assets/levelend.wav')
 
         this.load.setPath('assets');
 
