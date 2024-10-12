@@ -10,7 +10,7 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const developerMode = 0
+const developerMode = 1
 
 const jumpLevels = [
 
@@ -453,8 +453,22 @@ export class Game extends Scene {
     this.camera.setZoom(1)
   }
 
+  showInstructions() {
+    document.getElementById("instr").style.display = "block"
+  }
+
+  hideInstructions() {
+    document.getElementById("instr").style.display = "none"
+  }
+
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
+
+    if (levelIndex === 0) {
+        this.showInstructions()
+    } else {
+        this.hideInstructions()
+    }
 
     this.window1.setVisible(!!level.showWindow1)
     this.window2.setVisible(!!level.showWindow2)

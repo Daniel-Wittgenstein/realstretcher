@@ -15,6 +15,27 @@
             height: 40px;
             color: white;
         }
+
+        #instr {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #222e;
+            color: white;
+            font-family: monospace;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+        }
+
+        .t1 {
+            color: #c9001b;
+        }
+
+        .t2 {
+            color: #005ca6;
+        }
+
     </style>
 </head>
 
@@ -22,6 +43,10 @@
     <div id="dev-box"></div>
     <div id="app">
         <div id="game-container"></div>
+    </div>
+    <div id="instr">
+        <p>Move with <span class="t1">WASD</span> or <span class="t2">ARROW KEYS</span>.</p>
+        <p>Stuck? Press <span class="t1">R</span> to restart the level.</p>
     </div>
     <script type="module" src="src/main.js"></script>
 </body>
