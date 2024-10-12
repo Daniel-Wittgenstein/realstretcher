@@ -30,6 +30,8 @@ export class Game extends Scene {
 
   create()  {
 
+    this.soundOn = true
+
     const camera = this.cameras.main
     this.camera = camera
 
@@ -60,6 +62,7 @@ export class Game extends Scene {
     this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
     this.R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
     this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -103,7 +106,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 11 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -166,6 +169,7 @@ export class Game extends Scene {
 
   gameOver() {
     if (this.dead) return
+    this.play("die")
     this.dead = true
     this.player.setTexture('dead' + this.colorScheme)
     this.player.setVelocityY(-200)
@@ -296,6 +300,7 @@ export class Game extends Scene {
         this.physics.add.collider(self.sprite, this.player,
             () => {
                 this.destroyEntity(self)
+                this.play("break")
                 const vs = [
                     {sx: 0, sy: 0, x: -90, y: -100, torque: -2 },
                     {sx: 4, sy: -4, x: -60, y: -110, torque: -3 },
@@ -370,6 +375,7 @@ export class Game extends Scene {
         const func = () => {
             self.activateCounter = 24
             if (self.activated) return
+            this.play("switch")
             self.activated = true
             self.sprite.setTexture("switchOff" + this.colorScheme)
             const laser = this.getEntityByName("laser-" + name)
@@ -469,11 +475,13 @@ export class Game extends Scene {
 
   slimmer () {
     this.fatLevel++
+    this.play("change")
     this.updatePlayerShape()
   }
 
   fatter () {
     this.fatLevel--
+    this.play("change")
     this.updatePlayerShape()
   }
 
@@ -672,9 +680,18 @@ export class Game extends Scene {
     }
   }
 
+  play(sound) {
+    if (!this.soundOn) return
+    this.sound.play(sound)
+  }
   
 
   update() {
+
+    if (Phaser.Input.Keyboard.JustDown(this.M)) {
+        this.soundOn = !this.soundOn
+    }
+
 
     if (this.noUpdate) return
 
@@ -706,6 +723,7 @@ export class Game extends Scene {
 
         if ((this.W.isDown || this.up.isDown) && this.player.body.touching.down) {
             this.player.setVelocityY(-this.jumpStrength);
+            this.play("jump")
         }
     }
 
