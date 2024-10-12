@@ -10,7 +10,7 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const developerMode = 1
+const developerMode = 0
 
 const jumpLevels = [
 
@@ -103,7 +103,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 24 - 1 //start here xyzzy
+    this.level = 1 - 1//start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
