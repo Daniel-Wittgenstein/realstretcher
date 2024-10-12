@@ -10,7 +10,7 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const developerMode = 1
+const developerMode = 0
 
 const jumpLevels = [
 
