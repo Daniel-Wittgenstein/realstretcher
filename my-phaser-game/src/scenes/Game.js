@@ -102,7 +102,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 14 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -461,6 +461,10 @@ export class Game extends Scene {
     switch (sel) {
         case tile.empty:
             return
+
+        case tile.specialOnlyForGunTrick:
+            this.createWall(x, y+28, 0.15);
+            break;
         
         case tile.gun:
             this.createGun(x, y)
@@ -524,7 +528,7 @@ export class Game extends Scene {
             this.createWall(x, y-16, 0.5);
             break
         case tile.box:
-            this.createBox(x, y);
+            this.createBox(x, y); //todo: remove - 32 is for testing only
             break
         case tile.enemy:
             this.createEnemy(x, y);
