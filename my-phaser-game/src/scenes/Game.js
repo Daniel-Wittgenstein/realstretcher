@@ -103,7 +103,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 1 - 1 //start here xyzzy
+    this.level = 23 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -146,6 +146,10 @@ export class Game extends Scene {
   createWall(x, y, scale) {
     const img = (randomInteger(1, 100) <= 20) ? "ground2" : "ground"
     this.walls.create(x, y, img).setScale(scale).refreshBody()
+  }
+
+  createSecretCorridor(x, y) {
+    this.secretCorr.push(this.add.sprite(x, y, 'ground2'))
   }
 
 
@@ -360,8 +364,12 @@ export class Game extends Scene {
     this.gotoLevel(this.level)
   }
 
+  returnToLevel(levelIndex) {
+    this.gotoLevel(levelIndex)
+  }
+
   gotoLevel(index) {
-    this.currentLevelIndex = index
+    this.level = index
     this.restartLevel()
   }
 
@@ -385,7 +393,7 @@ export class Game extends Scene {
     //create floor: todo: should not be stretched image
     this.walls.create(0, 768, img).setScale(60, 1).refreshBody();
     this.destroyAllEntities()
-    this.loadLevel(this.currentLevelIndex)
+    this.loadLevel(this.level)
   }
 
   destroyAllWalls() {
@@ -464,6 +472,14 @@ export class Game extends Scene {
   loadLevel(levelIndex) {
     const level = Levels[levelIndex]
 
+    if (this.secretCorr) {
+        for (const item of this.secretCorr) {
+            item.destroy()
+        }
+    }
+
+    this.secretCorr = []
+
     if (levelIndex === 0) {
         this.showInstructions()
     } else {
@@ -493,6 +509,9 @@ export class Game extends Scene {
         case tile.empty:
             return
 
+        case tile.secretCorridor:
+            this.createSecretCorridor(x, y)
+            break
         case tile.specialOnlyForGunTrick:
             this.createWall(x, y+28, 0.15);
             break;
@@ -621,6 +640,10 @@ export class Game extends Scene {
         if (this.deadCounter <= 0) {
             this.dead = false
             this.player.setTexture('player' + this.colorScheme)
+            if (this.level >= 20 && this.level <= 21) {
+                this.returnToLevel(19)
+                return
+            }
             this.restartLevel()
         }
     }

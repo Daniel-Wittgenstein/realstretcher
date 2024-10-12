@@ -20,7 +20,7 @@ adds("empty", "bigWall", "wall", "wallSmallLeft", "wallSmallRight",
   "switch2", "laser2",
   "switch3", "laser3",
   "switch4", "laser4", "levelEnd", "breakBlock", "gun", "miniGunWall",
-  "specialOnlyForGunTrick"
+  "specialOnlyForGunTrick", "secretCorridor"
 )
 
 export default obj
