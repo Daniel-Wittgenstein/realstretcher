@@ -102,7 +102,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 14 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -219,9 +219,14 @@ export class Game extends Scene {
     }, this.boxGroup)
   }
 
-  createSpike(x, y, angle = 0) {
+  createSpike(x, y) {
     this.createEntity("spike", x, y, "spike", (self) => {
-        self.sprite.setRotation(Phaser.Math.DegToRad(angle))
+    }, (self) => {
+    }, this.spikeGroup)
+  }
+
+  createSpikeLeft(x, y) {
+    this.createEntity("spikeLeft", x, y, "spike-left", (self) => {
     }, (self) => {
     }, this.spikeGroup)
   }
@@ -289,7 +294,7 @@ export class Game extends Scene {
 
   
   createBullet(x, y) {
-    this.createEntity("bullet", x, y, "bullet", (self) => {
+    this.createEntity("bullet", x, y, "bullet" + this.colorScheme, (self) => {
         this.physics.add.collider(self.sprite, this.player, () => {
             this.gameOver()
         })
@@ -540,16 +545,10 @@ export class Game extends Scene {
             this.createFood(x, y, "fat");
             break
         case tile.spikeUp:
-            this.createSpike(x, y + 24, 0);
-            break
-        case tile.spikeRight:
-            this.createSpike(x, y, 90);
-            break
-        case tile.spikeDown:
-            this.createSpike(x, y, 180);
+            this.createSpike(x, y + 24);
             break
         case tile.spikeLeft:
-            this.createSpike(x, y, 270);
+            this.createSpikeLeft(x + 24, y);
             break
     }
   }
