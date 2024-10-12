@@ -102,7 +102,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 1 - 1 //start here xyzzy
+    this.level = 13 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -221,6 +221,12 @@ export class Game extends Scene {
 
   createSpike(x, y) {
     this.createEntity("spike", x, y, "spike", (self) => {
+    }, (self) => {
+    }, this.spikeGroup)
+  }
+
+  createSpikeDown(x, y) {
+    this.createEntity("spike", x, y, "spike-down", (self) => {
     }, (self) => {
     }, this.spikeGroup)
   }
@@ -547,6 +553,10 @@ export class Game extends Scene {
         case tile.spikeUp:
             this.createSpike(x, y + 24);
             break
+        case tile.spikeDown:
+            this.createSpikeDown(x, y - 24);
+            break
+
         case tile.spikeLeft:
             this.createSpikeLeft(x + 24, y);
             break

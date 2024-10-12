@@ -38,6 +38,7 @@ const g = tile.miniGunWall
 const R = tile.specialOnlyForGunTrick
 
 const aa = tile.spikeLeft
+const dd = tile.spikeDown
 
 const levels = [
   {
@@ -275,7 +276,23 @@ const levels = [
     ]
   },  
 
-
+  {
+    name: "enemyalso",  
+    tiles: [
+      [w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w,   w],  
+      [w,   _,   _,   _,   w,   _,   _,   _,   _,   _,   _,   _,   _,   _,   _,   _,   w],  
+      [w,   _,   _,   _,   w,   _,   _,   _,   _,   _,   _,   _,   _,   _,   ä,   _,   w],  
+      [w,   _,   _,   _,   w,   w,   Ä,   _,   _,   _,   _,   _,   _,   _,   _,   _,   w],  
+      [w,   _,   _,   _,   w,   w,   _,   _,   _,   w,   w,   _,   _,   _,   _,   _,   w],  
+      [w,   _,   w,   w,  dd,  dd,   _,   S,   _,   _,   _,   $,   _,   B,   B,   B,   w],  
+      [w,   _,   b,   f,   _,   ä,   _,   _,   _,   _,   _,   B,   B,   _,   E,   _,   w],  
+      [w,   _,   w,   w,   w,   w,   w,   w,   _,   _,   _,   B,   _,   z,   B,   B,   w],  
+      [w,   _,   _,   _,   w,   w,   _,   _,   _,   _,   _,   B,   _,   z,   w,   _,   w],  
+      [w,   X,   _,   _,   w,   w,   _,   _,   _,   _,   _,   B,   Y,   z,   w,   _,   w],  
+      [w,   w,   _,   _,   w,   w,   _,   _,   _,   _,   _,   w,   w,   w,   w,   w,   w],  
+      [w,   w,   _,   _,   f,   _,   _,   _,   _,   _,   _,   _,   x,   y,   Ü,   w,   w],  
+    ]
+  },  
  
   {
     name: "unexpected_ally",  
