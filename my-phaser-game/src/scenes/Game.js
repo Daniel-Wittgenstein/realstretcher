@@ -47,9 +47,10 @@ export class Game extends Scene {
 
     this.player = this.physics.add.sprite(400, 300, "player-right")
     this.player.setBounce(0.2);
-
+    this.player.setCollideWorldBounds(true)
 
     this.physics.add.collider(this.player, this.walls);
+
 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
