@@ -36,6 +36,7 @@ export class Preloader extends Scene
         this.load.image('ground2', 'block6.png');
 
         this.load.image('bg', 'bg.png');
+        this.load.image('bg-dark', 'bg-dark.png');
         this.load.image('window', 'window.png');
 
         this.load.image('enemy', 'enemy.png');

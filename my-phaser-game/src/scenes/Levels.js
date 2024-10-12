@@ -113,7 +113,6 @@ const levels = [
       [w,   _,   _,   _,   w,   $,   $,   $,   $,   $,   $,   $,   $,   w,   w,   w,   w],  
     ],
     showWindow2: true,
-    color: "yellow",
   },  
 
   {

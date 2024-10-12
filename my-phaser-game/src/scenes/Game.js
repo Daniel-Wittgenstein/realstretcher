@@ -8,7 +8,7 @@ import Levels from './Levels.js'
 
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
-  }
+}
 
 const developerMode = 0
 
@@ -35,7 +35,8 @@ export class Game extends Scene {
 
     camera.setBackgroundColor(0x202020);
 
-    this.add.tileSprite(0, 0, 1400, 768, 'bg').setOrigin(0, 0)
+    this.bgTiles1 = this.add.tileSprite(0, 0, 1024, 768, 'bg').setOrigin(0, 0)
+    this.bgTiles2 = this.add.tileSprite(0, 0, 1024, 768, 'bg-dark').setOrigin(0, 0)
     
     this.window1 = this.add.image(160, 160, 'window')
     this.window2 = this.add.image(800, 240, 'window')
@@ -102,7 +103,7 @@ export class Game extends Scene {
 
     this.dead = false
 
-    this.level = 13 - 1 //start here xyzzy
+    this.level = 1 - 1 //start here xyzzy
     this.gotoLevel(this.level)
 
     if (developerMode) {
@@ -435,8 +436,13 @@ export class Game extends Scene {
   updateColorScheme(color) {
     if (!color) {
         color = ""
+        this.bgTiles1.setVisible(true)
+        this.bgTiles2.setVisible(false)
     } else {
         color = "-" + color
+        this.bgTiles1.setVisible(false)
+        this.bgTiles2.setVisible(true)
+
     }
     this.colorScheme = color
   }
